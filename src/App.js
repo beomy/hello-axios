@@ -3,14 +3,14 @@ import logo from './logo.svg';
 import './App.css';
 
 import Button from './components/Button';
-import * as service from './services/user';
+import * as service from './services/posts';
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
       id: 0,
-      name: '',
+      title: '',
     };
   }
 
@@ -24,22 +24,22 @@ class App extends Component {
 
   fetchUserInfo = async (id) => {
     const info = await Promise.all([
-      service.getUser(id),
-      service.getFriend(id)
+      service.getTitle(id),
+      service.getContent(id)
     ]);
     
     this.setState(prevState => ({
       id: id,
-      name: info[0].data.name
+      title: info[0].data.title,
+      content: info[1].data.content
     }));
-
-    console.log(info);
   }
 
   render() {
     return (
       <div>
-        <h1>{this.state.name}</h1>
+        <h1>{this.state.title}</h1>
+        <p>{this.state.content}</p>
         <Button onIncrement={this.onIncrement} onDecrement={this.onDecrement} />
       </div>
     );
